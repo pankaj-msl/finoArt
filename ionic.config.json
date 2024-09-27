@@ -1,0 +1,7 @@
+{
+  "name": "finoArt",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
