@@ -1,0 +1,179 @@
+[
+  {
+    "type": "table",
+    "name": "categories",
+    "database": "microfin",
+    "data": [
+      {
+        "id": "1",
+        "transaction_type": "Expense",
+        "category_name": "Groceries",
+        "budget_amount": null,
+        "category_icon": "basket-outline",
+        "category_icon_color": "#FF6347",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "2",
+        "transaction_type": "Expense",
+        "category_name": "Snacks",
+        "budget_amount": null,
+        "category_icon": "pizza-outline",
+        "category_icon_color": "#FFA500",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "3",
+        "transaction_type": "Expense",
+        "category_name": "Bills & Recharge",
+        "budget_amount": null,
+        "category_icon": "receipt-outline",
+        "category_icon_color": "#32CD32",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "4",
+        "transaction_type": "Expense",
+        "category_name": "Travels",
+        "budget_amount": null,
+        "category_icon": "airplane-outline",
+        "category_icon_color": "#4682B4",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "5",
+        "transaction_type": "Expense",
+        "category_name": "Grooming",
+        "budget_amount": null,
+        "category_icon": "cut-outline",
+        "category_icon_color": "#C71585",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "6",
+        "transaction_type": "Expense",
+        "category_name": "Leisure",
+        "budget_amount": null,
+        "category_icon": "game-controller-outline",
+        "category_icon_color": "#8A2BE2",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "7",
+        "transaction_type": "Expense",
+        "category_name": "Investment",
+        "budget_amount": null,
+        "category_icon": "trending-up-outline",
+        "category_icon_color": "#FF4500",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "8",
+        "transaction_type": "Expense",
+        "category_name": "Health",
+        "budget_amount": null,
+        "category_icon": "medkit-outline",
+        "category_icon_color": "#DC143C",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "9",
+        "transaction_type": "Expense",
+        "category_name": "Education",
+        "budget_amount": null,
+        "category_icon": "school-outline",
+        "category_icon_color": "#4682B4",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "10",
+        "transaction_type": "Expense",
+        "category_name": "Households",
+        "budget_amount": null,
+        "category_icon": "home-outline",
+        "category_icon_color": "#20B2AA",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "11",
+        "transaction_type": "Expense",
+        "category_name": "Misc. Expense",
+        "budget_amount": null,
+        "category_icon": "shuffle-outline",
+        "category_icon_color": "#DAA520",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "12",
+        "transaction_type": "Income",
+        "category_name": "Salary",
+        "budget_amount": null,
+        "category_icon": "cash-outline",
+        "category_icon_color": "#228B22",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "13",
+        "transaction_type": "Income",
+        "category_name": "Cashback",
+        "budget_amount": null,
+        "category_icon": "card-outline",
+        "category_icon_color": "#B8860B",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "14",
+        "transaction_type": "Income",
+        "category_name": "Commission",
+        "budget_amount": null,
+        "category_icon": "briefcase-outline",
+        "category_icon_color": "#2E8B57",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "15",
+        "transaction_type": "Income",
+        "category_name": "Other Income",
+        "budget_amount": null,
+        "category_icon": "wallet-outline",
+        "category_icon_color": "#DA70D6",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "16",
+        "transaction_type": "Loans & Advances",
+        "category_name": "Given",
+        "budget_amount": null,
+        "category_icon": "arrow-forward-outline",
+        "category_icon_color": "#9932CC",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "17",
+        "transaction_type": "Loans & Advances",
+        "category_name": "Taken",
+        "budget_amount": null,
+        "category_icon": "arrow-back-outline",
+        "category_icon_color": "#8B0000",
+        "created_at": null,
+        "updated_at": null
+      }
+    ]
+  }
+]

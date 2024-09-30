@@ -1,0 +1,27 @@
+[
+  {
+    "type": "table",
+    "name": "parties",
+    "database": "microfin",
+    "data": [
+      {
+        "id": "1",
+        "name": "Amit Bhaiya",
+        "mob_num": "9140232060",
+        "email": "karanp128@gmail.com",
+        "status": "active",
+        "created_at": null,
+        "updated_at": null
+      },
+      {
+        "id": "2",
+        "name": "Harsh",
+        "mob_num": "9519186489",
+        "email": "harshdeepanjanx77@gmail.com",
+        "status": "active",
+        "created_at": null,
+        "updated_at": null
+      }
+    ]
+  }
+]

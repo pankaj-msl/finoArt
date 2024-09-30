@@ -1,0 +1,69 @@
+[
+  {
+    "type": "table",
+    "name": "transactions",
+    "database": "microfins",
+    "data": [
+      {
+        "id": "1",
+        "category_id": "17",
+        "party_id": "1",
+        "bank_id": "1",
+        "transaction_type": "Loans & Advances",
+        "category_name": "Taken",
+        "amount": "500",
+        "description": "optional",
+        "created_at": "2024-09-22 16:19:50",
+        "updated_at": "2024-09-22 16:19:50"
+      },
+      {
+        "id": "2",
+        "category_id": "1",
+        "party_id": null,
+        "bank_id": "3",
+        "transaction_type": "Expense",
+        "category_name": "Grocessories",
+        "amount": "45",
+        "description": null,
+        "created_at": "2024-09-22 16:21:37",
+        "updated_at": "2024-09-22 16:21:37"
+      },
+      {
+        "id": "3",
+        "category_id": "12",
+        "party_id": null,
+        "bank_id": "5",
+        "transaction_type": "Income",
+        "category_name": "Salary",
+        "amount": "25000",
+        "description": null,
+        "created_at": "2024-09-22 16:24:20",
+        "updated_at": "2024-09-22 16:24:20"
+      },
+      {
+        "id": "4",
+        "category_id": "2",
+        "party_id": null,
+        "bank_id": "3",
+        "transaction_type": "Expense",
+        "category_name": "Snacks",
+        "amount": "20",
+        "description": null,
+        "created_at": "2024-09-20 16:21:37",
+        "updated_at": "2024-09-22 16:21:37"
+      },
+      {
+        "id": "5",
+        "category_id": "2",
+        "party_id": null,
+        "bank_id": "3",
+        "transaction_type": "Expense",
+        "category_name": "Travel",
+        "amount": "60",
+        "description": null,
+        "created_at": "2024-09-21 16:21:37",
+        "updated_at": "2024-09-22 16:21:37"
+      }
+    ]
+  }
+]

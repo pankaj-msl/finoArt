@@ -1,0 +1,39 @@
+[
+  {
+    "type": "table",
+    "name": "category_master",
+    "database": "microfin",
+    "data": [
+      {
+        "id": "1",
+        "transaction_type": "Expense",
+        "created_at": "2024-09-19 15:34:05",
+        "updated_at": "2024-09-19 15:34:18"
+      },
+      {
+        "id": "2",
+        "transaction_type": "Income",
+        "created_at": "2024-09-19 15:34:11",
+        "updated_at": "2024-09-19 15:34:21"
+      },
+      {
+        "id": "3",
+        "transaction_type": "Loans & Advances",
+        "created_at": "2024-09-19 15:34:14",
+        "updated_at": "2024-09-19 15:34:25"
+      },
+      {
+        "id": "3",
+        "transaction_type": "Withdrawal",
+        "created_at": "2024-09-19 15:34:14",
+        "updated_at": "2024-09-19 15:34:25"
+      },
+      {
+        "id": "3",
+        "transaction_type": "Transfer",
+        "created_at": "2024-09-19 15:34:14",
+        "updated_at": "2024-09-19 15:34:25"
+      }
+    ]
+  }
+]
