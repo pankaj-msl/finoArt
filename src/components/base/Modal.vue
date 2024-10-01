@@ -117,6 +117,22 @@
           ></ion-input>
         </ion-item>
 
+        <ion-item v-if="form.transaction_type === 'Deposit'">
+          <ion-label>Select Account</ion-label>
+          <ion-select
+            v-model="form.deposit_to"
+            interface="popover"
+            placeholder="Select One"
+          >
+            <ion-select-option
+              v-for="account in populate.accounts.filter(a => a.account_name.toLowerCase() !== 'cash')"
+              :key="account.id"
+              :value="account.id"
+            >
+              {{ account.account_name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
         <ion-item v-if="form.transaction_type === 'Withdraw'">
           <ion-label>Select Account</ion-label>
           <ion-select
@@ -125,7 +141,7 @@
             placeholder="Select One"
           >
             <ion-select-option
-              v-for="account in populate.accounts"
+              v-for="account in populate.accounts.filter(a => a.account_name.toLowerCase() !== 'cash')"
               :key="account.id"
               :value="account.id"
             >
@@ -133,6 +149,7 @@
             </ion-select-option>
           </ion-select>
         </ion-item>
+
         <ion-item v-if="form.transaction_type === 'Transfer'">
           <ion-label>Transfer From</ion-label>
           <ion-select
@@ -141,7 +158,7 @@
             placeholder="Select One"
           >
             <ion-select-option
-              v-for="account in populate.accounts"
+              v-for="account in populate.accounts.filter(a => a.account_name.toLowerCase() !== 'cash')"
               :key="account.id"
               :value="account.id"
             >
@@ -157,7 +174,7 @@
             placeholder="Select One"
           >
             <ion-select-option
-              v-for="account in populate.accounts"
+              v-for="account in populate.accounts.filter(a => a.account_name.toLowerCase() !== 'cash' && a.id !== form.transfer_from)"
               :key="account.id"
               :value="account.id"
             >
@@ -198,6 +215,17 @@
           </ion-select>
         </ion-item>
 
+        <ion-item @click="form.showDateTimePicker = true">
+          <ion-datetime
+            v-if="form.showDateTimePicker"
+            v-model="form.selectedDate"
+            @ionCancel="form.showDateTimePicker = false"
+            @ionChange="form.showDateTimePicker = false"
+          ></ion-datetime>
+          <ion-label v-if="!form.showDateTimePicker">
+            {{ form.selectedDate ? form.selectedDate : 'Select Date' }}
+          </ion-label>
+        </ion-item>
         <ion-grid>
           <ion-row>
             <ion-col size="6">
@@ -239,6 +267,7 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonCardSubtitle,
+  IonDatetime
 } from "@ionic/vue";
 
 const cancel = () => modalController.dismiss(null, "cancel");
@@ -265,6 +294,7 @@ const populate = reactive({
     "Loans & Advances",
     "Withdraw",
     "Transfer",
+    "Deposit"
   ],
 
   exp_categories: exp_categories,
@@ -276,7 +306,7 @@ const populate = reactive({
   description: "",
 });
 
-const form = reactive({
+const formInitialState = {
   transaction_type: "",
   exp_category: "",
   income_category: "",
@@ -287,7 +317,21 @@ const form = reactive({
   transfer_to: "",
   transfer_from: "",
   withdraw_from: "",
+  deposit_to: "",
   party_id: "",
   new_party_name: "",
-});
+  showDateTimePicker: false,
+  selectedDate: "",
+}
+
+const form = reactive({ ...formInitialState });
+
+watch(() => form.transaction_type, (newVal)=> {
+  Object.assign(form, formInitialState);
+  form.transaction_type = newVal;
+})
+
+// watch(()=> form, (newVal)=>{
+//   console.log(newVal);
+// }, {deep: true})
 </script>

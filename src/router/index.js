@@ -12,6 +12,11 @@ const routes = [
   {
     path: '/transaction/:id',
     component: () => import('../pages/Transaction.vue')
+  },
+  {
+    path: '/transactions',
+    component: () => import('../pages/Transactions.vue'),
+    props: true
   }
 ]
 

@@ -7,15 +7,15 @@
             </ion-card-header>
             <ion-list>
             <ion-item 
-            v-for="transaction in transactions" 
+            v-for="transaction in transactions.slice(0,2)" 
             :key="transaction.id"
             :router-link="'/transaction/' + transaction.id">
-                <!-- <ion-icon :icon="icons[transaction.icon]" :color="transaction.icon_color"></ion-icon> -->
+                <ion-icon :icon="icons[transaction.icon]" :color="transaction.icon_color"></ion-icon>
                 <ion-label class="aligned-label"  color="primary">{{ transaction.category_name }}</ion-label>
                 <ion-label class="ion-text-right" color="danger">&#x20B9 {{ transaction.amount }}</ion-label>
             </ion-item>
         </ion-list>
-        <ion-button color="tertiary" expand="block">View More</ion-button>
+        <ion-button color="tertiary" expand="block" :router-link="'/transactions'">View More</ion-button>
         </ion-card>
 
     <!-- =================== Cash and Accounts ============================== -->
@@ -113,6 +113,11 @@ console.log("component", transactions);
       message.value = `Hello, ${data}!`;
     }
   };
+
+  onMounted(()=>{
+    console.log("mounted");
+    useTransactionsStore().fetchAPIs();
+  })
 </script>
 
 <style scoped>

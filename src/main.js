@@ -2,6 +2,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
 import { createPinia } from 'pinia'
+
+// Use them as needed in your template
+
 // import { CapacitorSQLite, SQLiteDBConnection } from '@capacitor-community/sqlite';
 
 
