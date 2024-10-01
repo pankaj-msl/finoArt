@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, watch, computed, reactive, onMounted } from 'vue';
+import { format, isToday, isYesterday } from "date-fns";
 import axios from 'axios';
 
 export const useTransactionsStore = defineStore('transactions', () => {
@@ -25,6 +26,8 @@ export const useTransactionsStore = defineStore('transactions', () => {
             exp_categories.value = response.data.expCat.map((c) => ({
                 id: c.id,
                 category_name: c.category_name,
+                cat_icon: c.cat_icon,
+                cat_icon_color: c.cat_icon_color,
             }));
             console.log("Pinia Expense Categories", exp_categories.value);
 
@@ -65,5 +68,29 @@ export const useTransactionsStore = defineStore('transactions', () => {
         return computed(() => transactions.value.find(transaction => transaction.id === transactionId));
     }
 
-    return { transactions, exp_categories, income_categories, parties, loan_type, accounts, loading, error, fetchAPIs, editTransaction };
+    const formatDateTime = (dateString) => {
+        const date = new Date(dateString);
+
+        if (isToday(date)) {
+            return `Today at ${format(date, "HH:mm")}`;
+        } else if (isYesterday(date)) {
+            return `Yesterday at ${format(date, "HH:mm")}`;
+        } else {
+            return format(date, "d MMM',' HH:mm");
+        }
+    }
+
+    const catIcon = (catId) => {
+        const category = computed(() => exp_categories.value.find(exp => exp.id == catId));
+        return category.value ? category.value.cat_icon : 'default-icon'
+    }
+    const catIconColor = (catId) => {
+        const category = computed(() => exp_categories.value.find(exp => exp.id == catId));
+        return category.value ? category.value.cat_icon_color : 'default-icon_color'
+    }
+
+    return {
+        transactions, exp_categories, income_categories, parties, loan_type, accounts, loading, error,
+        fetchAPIs, editTransaction, formatDateTime, catIcon, catIconColor
+    };
 });

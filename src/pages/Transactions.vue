@@ -10,10 +10,20 @@
             v-for="transaction in transactions" 
             :key="transaction.id"
             :router-link="'/transaction/' + transaction.id">
-                <!-- <ion-icon :icon="icons[transaction.icon]" :color="transaction.icon_color"></ion-icon> -->
-                <ion-label class="aligned-label"  color="primary">{{ transaction.category_name }}</ion-label>
-                <ion-label class="ion-text-right" color="danger">&#x20B9 {{ transaction.amount }}</ion-label>
-                <ion-icon @click="editTransactionModal(transaction.id)" class="ion-margin-left" :icon="icons.createOutline" color="primary"></ion-icon>
+            <ion-icon :icon="icons[useTransactionsStore().catIcon(transaction.category_id)]" :color="useTransactionsStore().catIconColor(transaction.category_id)"></ion-icon>
+            <ion-label class="ion-padding-start ellipsis-text" color="primary">
+                <h2>{{ transaction.description }}</h2>
+                <p>{{ transaction.category_name }}</p>
+            </ion-label>
+                <ion-label  color="primary">
+                    <ion-item style="width:100%; --inner-border-width: 0;">
+                        <ion-label class="ion-text-center">
+                            <h2>&#x20B9 {{ transaction.amount }}</h2>
+                            <p>{{ useTransactionsStore().formatDateTime(transaction.created_at) }}</p>
+                        </ion-label>
+                    </ion-item>
+                </ion-label>
+                <!-- <ion-label class="ion-text-right" color="danger">&#x20B9 {{ transaction.amount }}</ion-label> -->
             </ion-item>
         </ion-list>
         </ion-card>
@@ -24,16 +34,11 @@
 import { IonCard, IonCardHeader, IonCardSubtitle, IonList, IonItem, IonLabel, IonButton, IonIcon } from "@ionic/vue";
 import * as icons from "ionicons/icons"
 import { useTransactionsStore } from "../stores/transactions";
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import { storeToRefs } from "pinia";
 
 const transactionsStore = useTransactionsStore();
-const { transactions, fetchAPIs, loading, error } = storeToRefs(transactionsStore);
-
-const editTransactionModal = (transactionId) => {
-    // Open the modal here
-    console.log("Modal open");
-};
+const { transactions, loading, exp_categories, error} = storeToRefs(transactionsStore);
 
 onMounted(() => {
     transactionsStore.fetchAPIs(); 
@@ -52,5 +57,13 @@ onMounted(() => {
 .aligned-label {
     display: flex;
     align-items: center;
+}
+
+.ellipsis-text {
+  display: block; 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; /* Adds the ellipsis (...) */
+  max-width: 100%; 
 }
 </style>
