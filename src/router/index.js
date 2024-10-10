@@ -9,6 +9,8 @@ const routes = [
     path: '/microfin',
     component: Microfin
   },
+
+
   {
     path: '/transaction/:id',
     component: () => import('../pages/Transaction.vue')
@@ -16,6 +18,18 @@ const routes = [
   {
     path: '/transactions',
     component: () => import('../pages/Transactions.vue'),
+    props: true
+  },
+
+
+  {
+    path: '/budget/:id',
+    component: () => import('../pages/Budgets.vue'),
+    props: true
+  },
+  {
+    path: '/budgets',
+    component: () => import('../pages/Budgets.vue'),
     props: true
   }
 ]

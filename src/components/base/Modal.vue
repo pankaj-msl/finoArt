@@ -16,7 +16,7 @@
           Use this form to create a transaction.
         </ion-card-subtitle>
       </ion-card-header>
-      <form @submit.prevent="createOrUpdateTransaction()">
+      <form @submit.prevent="createOrUpdateTransaction">
         <ion-item>
           <ion-label>Select Transaction Type</ion-label>
           <ion-select
@@ -325,6 +325,17 @@ const formInitialState = {
 }
 
 const form = reactive({ ...formInitialState });
+
+const createOrUpdateTransaction = () => {
+  axios.post('https://microfin.ritdos.com/api/transaction/create', form)
+  .then(response => {
+    console.log(response);
+    modalController.dismiss(null, "confirm");
+  })
+  .catch(error => {
+    console.error(error);
+  });
+}
 
 watch(() => form.transaction_type, (newVal)=> {
   Object.assign(form, formInitialState);

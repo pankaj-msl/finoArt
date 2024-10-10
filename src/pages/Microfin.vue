@@ -74,22 +74,26 @@
             
     
         <ion-card-content>
-            <ion-row>
+            <ion-row 
+            v-for="budget in budgets.slice(0,2)"
+            :key="budget.id"
+            :router-link="'/budget/' + budget.id"
+            >
                 <ion-col class="ion-padding-top">
-                    <ion-label>Food</ion-label>
-                    <ion-label class="ion-float-right">Rs. 5,000</ion-label>
+                    <ion-label>{{ budget.category_name }}</ion-label>
+                    <ion-label class="ion-float-right">Rs. {{ budget.budget_amount }}</ion-label>
                 </ion-col>
                 <ion-progress-bar type="linear" value=".40"></ion-progress-bar>
             </ion-row>
-            <ion-row>
-                <ion-col class="ion-padding-top">
-                    <ion-label>Entertainment</ion-label>
-                    <ion-label class="ion-float-right">Rs. 2500</ion-label>
-                </ion-col>
-                <ion-progress-bar type="linear" value=".30"></ion-progress-bar>
+
+            <ion-row style="justify-content: center; margin-top: 12px;">
+                <ion-button @click="createBudget">+ Create Budget</ion-button>
             </ion-row>
+            <!-- <ion-row v-if="budgets.length === 0" style="justify-content: center; margin-top: 12px;">
+                <ion-button @click="createBudget">+ Create Budget</ion-button>
+            </ion-row> -->
         </ion-card-content>
-        <ion-button color="tertiary" expand="block">View More</ion-button>
+        <ion-button color="tertiary" :router-link="'/budgets'" expand="block">View More</ion-button>
     </ion-card>
 
     <!-- =========================== Speed Dial =========================== -->
@@ -112,7 +116,8 @@ import {
 } from "@ionic/vue";
 import { useTransactionsStore } from "../stores/transactions";
 import Modal from '../components/base/Modal.vue';
-import { ref, onMounted } from 'vue';
+import BudgetModal from '../components/base/BudgetModal.vue';
+import { ref, onMounted, computed } from 'vue';
 import { storeToRefs } from "pinia";
 
 const transactionsStore = ref([]);
@@ -126,6 +131,11 @@ transactionsStore.value = useTransactionsStore();
 const { transactions, exp_categories, income_categories, parties, accounts } = storeToRefs(transactionsStore.value);
 console.log("component", transactions);
 
+//mock budget for demonstration purposes
+
+const budgets = computed(() => exp_categories.value.filter(e => e.budget_amount != null));
+console.log("Budgets: ", budgets);
+
 
 //  ===================== Open Modal ============================
     const openModal = async () => {
@@ -136,16 +146,25 @@ console.log("component", transactions);
     modal.present();
 
     const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'confirm') {
-      message.value = `Hello, ${data}!`;
-    }
   };
 
   onMounted(()=>{
     console.log("mounted");
     useTransactionsStore().fetchAPIs();
   })
+
+  // ====================== Open Budget Form Modal =====================
+  const createBudget = async() => {
+    const budgetModal = await modalController.create({
+        component: BudgetModal,
+    });
+
+    budgetModal.present();
+
+    const { data } = await budgetModal.onWillDismiss();
+
+    console.log(data);
+  }
 </script>
 
 <style scoped>

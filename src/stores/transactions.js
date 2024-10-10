@@ -26,6 +26,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
             exp_categories.value = response.data.expCat.map((c) => ({
                 id: c.id,
                 category_name: c.category_name,
+                budget_amount: c.budget_amount,
                 cat_icon: c.cat_icon,
                 cat_icon_color: c.cat_icon_color,
             }));
@@ -64,7 +65,6 @@ export const useTransactionsStore = defineStore('transactions', () => {
     };
 
     const editTransaction = (transactionId) => {
-        console.log("Pinia Hitted", transactionId);
         return computed(() => transactions.value.find(transaction => transaction.id === transactionId));
     }
 
