@@ -128,7 +128,7 @@ transactionsStore.value = useTransactionsStore();
 //     useTransactionsStore().fetchAPIs();
 // })
 
-const { transactions, exp_categories, income_categories, parties, accounts } = storeToRefs(transactionsStore.value);
+const { transactions, exp_categories, income_categories, parties, accounts, loading } = storeToRefs(transactionsStore.value);
 console.log("component", transactions);
 
 //mock budget for demonstration purposes

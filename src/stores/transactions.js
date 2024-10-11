@@ -91,6 +91,6 @@ export const useTransactionsStore = defineStore('transactions', () => {
 
     return {
         transactions, exp_categories, income_categories, parties, loan_type, accounts, loading, error,
-        fetchAPIs, editTransaction, formatDateTime, catIcon, catIconColor
+        fetchAPIs, editTransaction, formatDateTime, catIcon, catIconColor,
     };
 });

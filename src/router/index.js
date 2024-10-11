@@ -24,7 +24,7 @@ const routes = [
 
   {
     path: '/budget/:id',
-    component: () => import('../pages/Budgets.vue'),
+    component: () => import('../pages/Budget.vue'),
     props: true
   },
   {
