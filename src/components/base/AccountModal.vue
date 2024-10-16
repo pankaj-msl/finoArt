@@ -8,35 +8,35 @@
       <ion-card class="ion-padding">
         <ion-card-header>
           <ion-card-title class="ion-text-center text-pink-darken-3">
-            Add a Budget
+            Add an Account
           </ion-card-title>
           <ion-card-subtitle
             class="ion-text-center ion-margin-bottom text-indigo-darken-1"
           >
-            Use this form to create a Budget.
+            Use this form to create an Account.
           </ion-card-subtitle>
         </ion-card-header>
-        <form @submit.prevent="updateBudget">
+        <form @submit.prevent="createAccount">
           <ion-item>
-            <ion-label>Select Expense</ion-label>
+            <ion-label>Account Type</ion-label>
             <ion-select
-              v-model="form.exp_category"
+              v-model="form.account_type"
               interface="popover"
               placeholder="Select One"
             >
               <ion-select-option
-                v-for="category in exp_categories"
-                :key="category.id"
-                :value="category.id"
+                v-for="account in populate.account_type"
+                :key="account"
+                :value="account"
               >
-                {{ category.category_name }}
+                {{ account }}
               </ion-select-option>
             </ion-select>
           </ion-item> 
 
           <ion-item>
-            <ion-label position="floating">Amount</ion-label>
-            <ion-input type="number" v-model="form.amount"></ion-input>
+            <ion-label position="floating">Account Name</ion-label>
+            <ion-input type="text" v-model="form.account_name"></ion-input>
           </ion-item>
           <ion-grid>
             <ion-row>
@@ -90,25 +90,23 @@
   import { useTransactionsStore } from "../../stores/transactions";
   
   const name = ref();
-  let drawer = ref(false);
-  let showTransactionModal = ref(false);
-  let transactions = ref({});
-  const transactionsStore = useTransactionsStore();
-  const { exp_categories } =
-    transactionsStore;
   
-  const modalTitle = ref("Create Budget");
+  const modalTitle = ref("Create Account");
+
+  const populate = reactive({
+    account_type: ["Saving Account", "Current Account"],
+  });
   
   const form = reactive({
-    exp_category: null,
-    amount: null,
+    account_name: null,
+    account_type: null,
   })
 
-  const updateBudget = () => {
-    axios.post('https://microfin.ritdos.com/api/budget/update', form)
+  const createAccount = () => {
+    axios.post('https://microfin.ritdos.com/api/account/create', form)
     .then(() => {
-        console.log('Budget created successfully');
-        window.location.href = '/';
+        console.log('Account created successfully');
+        window.location.href = '/accounts';
       })
      .catch(error => {
         console.error(error);

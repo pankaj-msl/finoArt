@@ -18,6 +18,9 @@
                 </ion-col>
                 <ion-progress-bar type="linear" value=".40"></ion-progress-bar>
             </ion-row>
+            <ion-row style="justify-content: center; margin-top: 12px;">
+                <ion-button @click="createBudget">+ Create Budget</ion-button>
+            </ion-row>
         </ion-card-content>
     </ion-card>
 </base-layout>
@@ -50,6 +53,7 @@ import {
 } from "@ionic/vue";
 
 import { useTransactionsStore } from "../stores/transactions";
+import BudgetModal from '../components/base/BudgetModal.vue';
 import { ref, onMounted, computed } from 'vue';
 import { storeToRefs } from "pinia";
 
@@ -59,6 +63,19 @@ transactionsStore.value = useTransactionsStore();
 const { transactions, exp_categories, income_categories, parties, accounts } = storeToRefs(transactionsStore.value);
 
 const budgets = computed(() => exp_categories.value.filter(e => e.budget_amount != null));
+
+// ====================== Open Budget Form Modal =====================
+const createBudget = async() => {
+    const budgetModal = await modalController.create({
+        component: BudgetModal,
+    });
+
+    budgetModal.present();
+
+    const { data } = await budgetModal.onWillDismiss();
+
+    console.log(data);
+  }
 </script>
 
 <style scoped></style>

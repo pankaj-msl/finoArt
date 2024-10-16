@@ -107,13 +107,37 @@
         <ion-item
           v-if="
             form.transaction_type === 'Loans & Advances' &&
-            form.party_name === '+ Add Party'
+            form.party_id === populate.parties[populate.parties.length-1].id
           "
         >
           <ion-label position="floating">Add New Party</ion-label>
           <ion-input
             v-model="form.new_party_name"
             placeholder="Enter New Party Name"
+          ></ion-input>
+        </ion-item>
+        <ion-item
+          v-if="
+            form.transaction_type === 'Loans & Advances' &&
+            form.party_id === populate.parties[populate.parties.length-1].id
+          "
+        >
+          <ion-label position="floating">Add Party Mobile No.</ion-label>
+          <ion-input
+            v-model="form.new_party_mobile"
+            placeholder="Enter Party Mobile No."
+          ></ion-input>
+        </ion-item>
+        <ion-item
+          v-if="
+            form.transaction_type === 'Loans & Advances' &&
+            form.party_id === populate.parties[populate.parties.length-1].id
+          "
+        >
+          <ion-label position="floating">Add Party Email Id</ion-label>
+          <ion-input
+            v-model="form.new_party_email"
+            placeholder="Enter Party Email (optional)"
           ></ion-input>
         </ion-item>
 
@@ -320,6 +344,8 @@ const formInitialState = {
   deposit_to: "",
   party_id: "",
   new_party_name: "",
+  new_party_mobile: "",
+  new_party_email: "",
   showDateTimePicker: false,
   selectedDate: "",
 }

@@ -3,7 +3,7 @@
     <!-- =================== Latest Transaction ============================ -->
     <ion-card>
             <ion-card-header color="light">
-                <ion-card-subtitle color="primary">Monthly Transactions</ion-card-subtitle>
+                <ion-card-subtitle color="primary">Recent Transactions</ion-card-subtitle>
             </ion-card-header>
             <ion-list>
             <ion-item v-if="loading">Loading transactions...</ion-item>
@@ -29,22 +29,6 @@
         </ion-list>
         <ion-button color="tertiary" expand="block" :router-link="'/transactions'">View More</ion-button>
         </ion-card>
-        <!-- <ion-card>
-            <ion-card-header color="light">
-                <ion-card-subtitle color="primary">Recent Transactions</ion-card-subtitle>
-            </ion-card-header>
-            <ion-list>
-            <ion-item 
-            v-for="transaction in transactions.slice(0,2)" 
-            :key="transaction.id"
-            :router-link="'/transaction/' + transaction.id">
-                <ion-icon :icon="icons[transaction.icon]" :color="transaction.icon_color"></ion-icon>
-                <ion-label class="aligned-label"  color="primary">{{ transaction.category_name }}</ion-label>
-                <ion-label class="ion-text-right" color="danger">&#x20B9 {{ transaction.amount }}</ion-label>
-            </ion-item>
-        </ion-list>
-        <ion-button color="tertiary" expand="block" :router-link="'/transactions'">View More</ion-button>
-        </ion-card> -->
 
     <!-- =================== Cash and Accounts ============================== -->
      <ion-row>
@@ -57,7 +41,7 @@
             </ion-card>
         </ion-col>
         <ion-col size-md="6">
-            <ion-card>
+            <ion-card :router-link="'/accounts'">
                 <ion-card-header color="light">
                     <ion-card-subtitle>Accounts</ion-card-subtitle>
                     <ion-card-title>06</ion-card-title>
@@ -86,12 +70,9 @@
                 <ion-progress-bar type="linear" value=".40"></ion-progress-bar>
             </ion-row>
 
-            <ion-row style="justify-content: center; margin-top: 12px;">
+            <ion-row v-if="budgets.length === 0" style="justify-content: center; margin-top: 12px;">
                 <ion-button @click="createBudget">+ Create Budget</ion-button>
             </ion-row>
-            <!-- <ion-row v-if="budgets.length === 0" style="justify-content: center; margin-top: 12px;">
-                <ion-button @click="createBudget">+ Create Budget</ion-button>
-            </ion-row> -->
         </ion-card-content>
         <ion-button color="tertiary" :router-link="'/budgets'" expand="block">View More</ion-button>
     </ion-card>
@@ -124,14 +105,8 @@ const transactionsStore = ref([]);
 
 transactionsStore.value = useTransactionsStore();
 
-// onMounted(() => {
-//     useTransactionsStore().fetchAPIs();
-// })
-
 const { transactions, exp_categories, income_categories, parties, accounts, loading } = storeToRefs(transactionsStore.value);
 console.log("component", transactions);
-
-//mock budget for demonstration purposes
 
 const budgets = computed(() => exp_categories.value.filter(e => e.budget_amount != null));
 console.log("Budgets: ", budgets);

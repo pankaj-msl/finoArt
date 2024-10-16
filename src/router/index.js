@@ -31,6 +31,17 @@ const routes = [
     path: '/budgets',
     component: () => import('../pages/Budgets.vue'),
     props: true
+  },
+
+  {
+    path: '/accounts',
+    component: () => import('../pages/Accounts.vue'),
+    props: true
+  },
+  {
+    path: '/account/:id',
+    component: () => import('../pages/Account.vue'),
+    props: true
   }
 ]
 

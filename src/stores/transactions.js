@@ -48,12 +48,14 @@ export const useTransactionsStore = defineStore('transactions', () => {
                 id: p.id,
                 party_name: p.name,
             }));
-            parties.value.push({ id: null, party_name: "+ Add Party" });
+            parties.value.push({ id: parties.value.length+1, party_name: "+ Add Party" });
             console.log("Pinia Parties: ", parties.value);
 
             accounts.value = response.data.accounts.map((a) => ({
                 id: a.id,
                 account_name: a.account_name,
+                account_type: a.account_type,
+                account_amount: a.total_amount,
             }));
             console.log("Pinia Accounts: ", accounts.value);
         } catch (error) {
