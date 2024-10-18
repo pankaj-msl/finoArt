@@ -98,6 +98,7 @@ import {
 import { useTransactionsStore } from "../stores/transactions";
 import Modal from '../components/base/Modal.vue';
 import BudgetModal from '../components/base/BudgetModal.vue';
+import BaseLayout from "../components/base/BaseLayout.vue";
 import { ref, onMounted, computed } from 'vue';
 import { storeToRefs } from "pinia";
 
@@ -156,12 +157,6 @@ console.log("Budgets: ", budgets);
 .ion-text-right {
     text-align: right;
 }
-
-/* .aligned-label {
-    display: flex;
-    align-items: center;
-} */
-
 .ellipsis-text {
   display: block; 
   white-space: nowrap; 

@@ -1,5 +1,5 @@
 <template>
-    <base-layout page-title="Transactions" page-default-back-link="/microfin">
+    <app-layout page-title="Transactions" page-default-back-link="/microfin">
     <ion-card>
             <ion-card-header color="light">
                 <ion-card-subtitle color="primary">Monthly Transactions</ion-card-subtitle>
@@ -27,7 +27,7 @@
             </ion-item>
         </ion-list>
         </ion-card>
-    </base-layout>
+    </app-layout>
 </template>
 
 <script setup>
@@ -35,6 +35,8 @@ import { IonCard, IonCardHeader, IonCardSubtitle, IonList, IonItem, IonLabel, Io
 import * as icons from "ionicons/icons"
 import { useTransactionsStore } from "../stores/transactions";
 import { ref, watch, onMounted, computed } from "vue";
+import AppLayout from "../components/base/AppLayout.vue";
+
 import { storeToRefs } from "pinia";
 
 const transactionsStore = useTransactionsStore();

@@ -1,5 +1,5 @@
 <template>
-<base-layout page-title="Manage Budget" page-default-back-link="/microfin">
+<app-layout page-title="Manage Budget" page-default-back-link="/microfin">
 <ion-card>
         <ion-card-header color="light">
             <ion-card-subtitle>Budget Management</ion-card-subtitle>
@@ -23,7 +23,7 @@
             </ion-row>
         </ion-card-content>
     </ion-card>
-</base-layout>
+</app-layout>
 </template>
 
 <script setup>
@@ -55,6 +55,7 @@ import {
 import { useTransactionsStore } from "../stores/transactions";
 import BudgetModal from '../components/base/BudgetModal.vue';
 import { ref, onMounted, computed } from 'vue';
+import AppLayout from "../components/base/AppLayout.vue";
 import { storeToRefs } from "pinia";
 
 const transactionsStore = ref([]);

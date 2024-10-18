@@ -1,5 +1,5 @@
 <template>
-  <base-layout page-title="Transaction" page-default-back-link="/microfin">
+  <app-layout page-title="Transaction" page-default-back-link="/microfin">
     <ion-card>
       <ion-card-header>
         <ion-card-title class="ion-text-center">{{
@@ -82,7 +82,7 @@
         </ion-list>
       </ion-card-header>
     </ion-card>
-  </base-layout>
+  </app-layout>
 </template>
 
 <script setup>
@@ -118,6 +118,8 @@ import 'notyf/notyf.min.css'; // for CSS
 import { useRoute } from "vue-router";
 import * as icons from "ionicons/icons";
 import { onMounted, ref, computed, watch } from "vue";
+import AppLayout from "../components/base/AppLayout.vue";
+
 import axios from "axios";
 
 const route = useRoute();

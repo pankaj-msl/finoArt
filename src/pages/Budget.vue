@@ -1,5 +1,5 @@
 <template>
-  <base-layout page-title="Update Budget" page-default-back-link="/microfin">
+  <app-layout page-title="Update Budget" page-default-back-link="/microfin">
     <ion-card>
       <ion-card-header color="light">
         <ion-card-subtitle>Edit Budget</ion-card-subtitle>
@@ -39,7 +39,7 @@
         </ion-list>
       </ion-card-content>
     </ion-card>
-  </base-layout>
+  </app-layout>
 </template>
 
 <script setup>
@@ -71,6 +71,8 @@ import {
 import { useRoute } from "vue-router";
 import { ref, reactive, computed, watch, onMounted } from "vue";
 import { useTransactionsStore } from "../stores/transactions";
+import AppLayout from "../components/base/AppLayout.vue";
+
 import * as icons from "ionicons/icons";
 import axios from "axios";
 

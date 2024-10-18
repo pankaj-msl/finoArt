@@ -1,5 +1,5 @@
 <template>
-    <base-layout page-title="Accounts" page-default-back-link="/microfin">
+    <app-layout page-title="Accounts" page-default-back-link="/microfin">
     <ion-card>
             <ion-card-header color="light">
                 <ion-card-subtitle color="primary">Accounts</ion-card-subtitle>
@@ -29,19 +29,23 @@
                 <ion-button @click="createAccount">+ Create Account</ion-button>
             </ion-row>
         </ion-card>
-    </base-layout>
+    </app-layout>
 </template>
 
 <script setup>
-import { IonCard, IonCardHeader, IonCardSubtitle, IonList, IonItem, IonLabel, IonButton, IonIcon, IonRow, modalController, } from "@ionic/vue";
+import { IonCard, onIonViewWillEnter, IonCardHeader, IonCardSubtitle, IonList, IonItem, IonLabel, menuController, IonButton, IonIcon, IonRow, modalController } from "@ionic/vue";
 import * as icons from "ionicons/icons"
 import { useTransactionsStore } from "../stores/transactions";
 import AccountModal from '../components/base/AccountModal.vue';
+import AppLayout from "../components/base/AppLayout.vue";
 import { ref, watch, onMounted, computed } from "vue";
 import { storeToRefs } from "pinia";
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const transactionsStore = useTransactionsStore();
-const { accounts } = storeToRefs(transactionsStore);
+const { accounts, loading } = storeToRefs(transactionsStore);
 
 onMounted(() => {
     transactionsStore.fetchAPIs(); 
