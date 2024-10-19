@@ -26,6 +26,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
             exp_categories.value = response.data.expCat.map((c) => ({
                 id: c.id,
                 category_name: c.category_name,
+                category_type: c.transaction_type,
                 budget_amount: c.budget_amount,
                 cat_icon: c.cat_icon,
                 cat_icon_color: c.cat_icon_color,
@@ -35,6 +36,9 @@ export const useTransactionsStore = defineStore('transactions', () => {
             income_categories.value = response.data.incomeCat.map((c) => ({
                 id: c.id,
                 category_name: c.category_name,
+                category_type: c.transaction_type,
+                cat_icon: c.cat_icon,
+                cat_icon_color: c.cat_icon_color,
             }));
             console.log("Pinia Income Categories: ", income_categories.value);
 

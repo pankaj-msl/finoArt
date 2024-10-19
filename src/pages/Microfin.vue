@@ -8,7 +8,7 @@
             <ion-list>
             <ion-item v-if="loading">Loading transactions...</ion-item>
             <ion-item 
-            v-for="transaction in transactions.slice(0,2)" 
+            v-for="transaction in exp_transactions.slice(0,2)" 
             :key="transaction.id"
             :router-link="'/transaction/' + transaction.id">
             <ion-icon :icon="icons[useTransactionsStore().catIcon(transaction.category_id)]" :color="useTransactionsStore().catIconColor(transaction.category_id)"></ion-icon>
@@ -107,6 +107,7 @@ const transactionsStore = ref([]);
 transactionsStore.value = useTransactionsStore();
 
 const { transactions, exp_categories, income_categories, parties, accounts, loading } = storeToRefs(transactionsStore.value);
+const exp_transactions = computed(() => transactions.value.filter(t => t.transaction_type === "Expense"));
 console.log("component", transactions);
 
 const budgets = computed(() => exp_categories.value.filter(e => e.budget_amount != null));

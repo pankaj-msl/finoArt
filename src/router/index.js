@@ -42,7 +42,24 @@ const routes = [
     path: '/account/:id',
     component: () => import('../pages/Account.vue'),
     props: true
-  }
+  },
+
+  {
+    path: '/categories',
+    component: () => import('../pages/Categories.vue'),
+    props: true
+  },
+
+  {
+    path: '/party/:id',
+    component: () => import('../pages/Party.vue'),
+    props: true
+  },
+  {
+    path: '/parties',
+    component: () => import('../pages/Parties.vue'),
+    props: true
+  },
 ]
 
 const router = createRouter({

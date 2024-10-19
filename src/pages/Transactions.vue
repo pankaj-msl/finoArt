@@ -7,7 +7,7 @@
             <ion-list>
             <ion-item v-if="loading">Loading transactions...</ion-item>
             <ion-item 
-            v-for="transaction in transactions" 
+            v-for="transaction in exp_transactions" 
             :key="transaction.id"
             :router-link="'/transaction/' + transaction.id">
             <ion-icon :icon="icons[useTransactionsStore().catIcon(transaction.category_id)]" :color="useTransactionsStore().catIconColor(transaction.category_id)"></ion-icon>
@@ -41,6 +41,7 @@ import { storeToRefs } from "pinia";
 
 const transactionsStore = useTransactionsStore();
 const { transactions, loading, exp_categories, error} = storeToRefs(transactionsStore);
+const exp_transactions = computed(() => transactions.value.filter(t => t.transaction_type === "Expense"));
 
 onMounted(() => {
     transactionsStore.fetchAPIs(); 

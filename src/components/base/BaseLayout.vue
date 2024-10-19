@@ -7,22 +7,22 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-        <ion-button routerLink="/transactions">
+        <ion-item routerLink="/transactions">
             <ion-icon :icon="icons.cash" color="success"></ion-icon>
             <ion-label style="padding-left: 4px;">Transactions</ion-label>
-        </ion-button>
+        </ion-item>
         <ion-item routerLink="/accounts">
             <ion-icon :icon="icons.briefcase" color="primary"></ion-icon>
             <ion-label style="padding-left: 4px;">Accounts</ion-label>
         </ion-item>
-        <!-- <ion-item :router-link="'/parties'">
+        <ion-item :router-link="'/parties'">
             <ion-icon :icon="icons.person" color="warning"></ion-icon>
             <ion-label style="padding-left: 4px;">Parties</ion-label>
-        </ion-item> -->
-        <!-- <ion-item :router-link="'/categories'">
+        </ion-item>
+        <ion-item :router-link="'/categories'">
             <ion-icon :icon="icons.albums" color="tertiary"></ion-icon>
             <ion-label style="padding-left: 4px;">Categories</ion-label>
-        </ion-item> -->
+        </ion-item>
         <ion-item routerLink="/budgets">
             <ion-icon :icon="icons.cart" color="danger"></ion-icon>
             <ion-label style="padding-left: 4px;">Budgets</ion-label>

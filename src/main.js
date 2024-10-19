@@ -2,14 +2,13 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
 import { createPinia } from 'pinia'
-import { onBeforeRouteUpdate } from 'vue-router';
 
 // Use them as needed in your template
 
 // import { CapacitorSQLite, SQLiteDBConnection } from '@capacitor-community/sqlite';
 
 
-import { IonicVue, menuController  } from '@ionic/vue';
+import { IonicVue  } from '@ionic/vue';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -48,12 +47,6 @@ import './theme/core.css';
 
 import BaseLayout from './components/base/BaseLayout.vue';
 
-// This will make sure the menu is initialized and ready on every route change
-onBeforeRouteUpdate(async (to, from) => {
-    await menuController.close(); // Close the menu just in case
-    await menuController.enable(true); // Enable the menu
-    console.log(`Route changed from ${from.path} to ${to.path}`);
-});
 
 const pinia = createPinia()
 
