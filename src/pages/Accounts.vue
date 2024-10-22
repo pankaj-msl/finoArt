@@ -41,14 +41,25 @@ import AppLayout from "../components/base/AppLayout.vue";
 import { ref, watch, onMounted, computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute } from 'vue-router';
+import { useToast } from "vue-toastification";
 
 const route = useRoute();
+
+const toast = useToast();
 
 const transactionsStore = useTransactionsStore();
 const { accounts, loading } = storeToRefs(transactionsStore);
 
 onMounted(() => {
     transactionsStore.fetchAPIs(); 
+    if(localStorage.getItem('accountCreated')){
+        toast.success("Account Created Successfully!", {timeout: 3000});
+        localStorage.removeItem('accountCreated');
+    }
+    if(localStorage.getItem('accountDeleted')){
+        toast.success("Account Deleted Successfully!", {timeout: 3000});
+        localStorage.removeItem('accountDeleted');
+    }
 });
 
 // ====================== Open Budget Form Modal =====================

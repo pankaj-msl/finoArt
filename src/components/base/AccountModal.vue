@@ -88,7 +88,9 @@
   import { ref, reactive, onMounted, watch } from "vue";
   import axios from "axios";
   import { useTransactionsStore } from "../../stores/transactions";
-  
+  import { useToast } from "vue-toastification";
+
+  const toast = useToast();  
   const name = ref();
   
   const modalTitle = ref("Create Account");
@@ -105,10 +107,11 @@
   const createAccount = () => {
     axios.post('https://microfin.ritdos.com/api/account/create', form)
     .then(() => {
-        console.log('Account created successfully');
+        localStorage.setItem('accountCreated', true);
         window.location.href = '/accounts';
       })
      .catch(error => {
+        toast.error("Error Creating Account");
         console.error(error);
       });
   }

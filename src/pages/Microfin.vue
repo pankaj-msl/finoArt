@@ -3,7 +3,7 @@
     <!-- =================== Latest Transaction ============================ -->
     <ion-card>
             <ion-card-header color="light">
-                <ion-card-subtitle color="primary">Recent Transactions</ion-card-subtitle>
+                <ion-card-subtitle color="primary">Recent Transactions &#x20B9{{ totalExpense }}</ion-card-subtitle>
             </ion-card-header>
             <ion-list>
             <ion-item v-if="loading">Loading transactions...</ion-item>
@@ -24,7 +24,6 @@
                         </ion-label>
                     </ion-item>
                 </ion-label>
-                <!-- <ion-label class="ion-text-right" color="danger">&#x20B9 {{ transaction.amount }}</ion-label> -->
             </ion-item>
         </ion-list>
         <ion-button color="tertiary" expand="block" :router-link="'/transactions'">View More</ion-button>
@@ -44,7 +43,7 @@
             <ion-card :router-link="'/accounts'">
                 <ion-card-header color="light">
                     <ion-card-subtitle>Accounts</ion-card-subtitle>
-                    <ion-card-title>06</ion-card-title>
+                    <ion-card-title>{{ accounts.length }}</ion-card-title>
                 </ion-card-header>
             </ion-card>
         </ion-col>
@@ -67,7 +66,10 @@
                     <ion-label>{{ budget.category_name }}</ion-label>
                     <ion-label class="ion-float-right">Rs. {{ budget.budget_amount }}</ion-label>
                 </ion-col>
-                <ion-progress-bar type="linear" value=".40"></ion-progress-bar>
+                <ion-progress-bar type="linear" 
+                :value="useBudgetStore().progressValue(budget.category_name, budget.budget_amount)"
+                :style="{'--ion-color-primary': useBudgetStore().progressColor(budget.category_name, budget.budget_amount)}"
+                ></ion-progress-bar>
             </ion-row>
 
             <ion-row v-if="budgets.length === 0" style="justify-content: center; margin-top: 12px;">
@@ -96,11 +98,16 @@ import {
     IonFab, IonFabButton, IonFabList, modalController
 } from "@ionic/vue";
 import { useTransactionsStore } from "../stores/transactions";
+import { useBudgetStore } from "../stores/budgets";
 import Modal from '../components/base/Modal.vue';
 import BudgetModal from '../components/base/BudgetModal.vue';
 import BaseLayout from "../components/base/BaseLayout.vue";
+import { useToast } from "vue-toastification";
 import { ref, onMounted, computed } from 'vue';
 import { storeToRefs } from "pinia";
+
+const toast = useToast();
+
 
 const transactionsStore = ref([]);
 
@@ -108,11 +115,10 @@ transactionsStore.value = useTransactionsStore();
 
 const { transactions, exp_categories, income_categories, parties, accounts, loading } = storeToRefs(transactionsStore.value);
 const exp_transactions = computed(() => transactions.value.filter(t => t.transaction_type === "Expense"));
-console.log("component", transactions);
 
 const budgets = computed(() => exp_categories.value.filter(e => e.budget_amount != null));
-console.log("Budgets: ", budgets);
 
+const totalExpense = computed(() => exp_transactions.value.reduce((total, t) => total + t.amount, 0));
 
 //  ===================== Open Modal ============================
     const openModal = async () => {
@@ -120,14 +126,17 @@ console.log("Budgets: ", budgets);
       component: Modal,
     });
 
-    modal.present();
+    await modal.present();
 
     const { data, role } = await modal.onWillDismiss();
   };
 
   onMounted(()=>{
-    console.log("mounted");
     useTransactionsStore().fetchAPIs();
+    if(localStorage.getItem('transactionCreated')){
+        toast.success("Transaction Created Successfully!");
+        localStorage.removeItem('transactionCreated');
+    }
   })
 
   // ====================== Open Budget Form Modal =====================

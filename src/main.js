@@ -2,6 +2,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
 import { createPinia } from 'pinia'
+import Toast from "vue-toastification";
+// Import the CSS or use your own!
+import "vue-toastification/dist/index.css";
 
 // Use them as needed in your template
 
@@ -53,6 +56,7 @@ const pinia = createPinia()
 const app = createApp(App)
   .use(IonicVue)
   .use(pinia)
+  .use(Toast)
   .use(router);
 
 app.component('base-layout', BaseLayout);

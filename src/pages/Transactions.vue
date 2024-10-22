@@ -2,7 +2,7 @@
     <app-layout page-title="Transactions" page-default-back-link="/microfin">
     <ion-card>
             <ion-card-header color="light">
-                <ion-card-subtitle color="primary">Monthly Transactions</ion-card-subtitle>
+                <ion-card-subtitle color="primary">Monthly Transactions &#x20B9{{ totalExpense }}</ion-card-subtitle>
             </ion-card-header>
             <ion-list>
             <ion-item v-if="loading">Loading transactions...</ion-item>
@@ -36,15 +36,31 @@ import * as icons from "ionicons/icons"
 import { useTransactionsStore } from "../stores/transactions";
 import { ref, watch, onMounted, computed } from "vue";
 import AppLayout from "../components/base/AppLayout.vue";
+import { useToast } from "vue-toastification";
 
 import { storeToRefs } from "pinia";
 
+const toast = useToast();
 const transactionsStore = useTransactionsStore();
 const { transactions, loading, exp_categories, error} = storeToRefs(transactionsStore);
 const exp_transactions = computed(() => transactions.value.filter(t => t.transaction_type === "Expense"));
+const totalExpense = computed(() => exp_transactions.value.reduce((total, t) => total + t.amount, 0));
+
 
 onMounted(() => {
     transactionsStore.fetchAPIs(); 
+    if(localStorage.getItem('transactionDeleted')){
+        toast.success("Transaction Deleted Successfully!");
+        localStorage.removeItem('transactionDeleted');
+    }
+    if(localStorage.getItem('transactionUpdated')){
+        toast.success("Transaction Updated Successfully!");
+        localStorage.removeItem('transactionUpdated');
+    }
+    if(localStorage.getItem('transactionCreated')){
+        toast.success("Transaction Created Successfully!");
+        localStorage.removeItem('transactionCreated');
+    }
 });
 </script>
 

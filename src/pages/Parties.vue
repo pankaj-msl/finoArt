@@ -52,28 +52,26 @@
     } from "@ionic/vue";
     
     import { useTransactionsStore } from "../stores/transactions";
-    import BudgetModal from '../components/base/BudgetModal.vue';
     import { ref, onMounted, computed } from 'vue';
     import AppLayout from "../components/base/AppLayout.vue";
     import { storeToRefs } from "pinia";
+    import { useToast } from "vue-toastification";
+
+    const toast = useToast();
     
     const transactionsStore = ref([]);
     transactionsStore.value = useTransactionsStore();
     
     const { parties } = storeToRefs(transactionsStore.value);
-    
-    // ====================== Open Budget Form Modal =====================
-    const createBudget = async() => {
-        const budgetModal = await modalController.create({
-            component: BudgetModal,
-        });
-    
-        budgetModal.present();
-    
-        const { data } = await budgetModal.onWillDismiss();
-    
-        console.log(data);
-      }
+
+    onMounted(()=>{
+        useTransactionsStore().fetchAPIs();
+        if(localStorage.getItem('partyDeleted'))
+        {
+            toast.success("Party deleted successfully")
+            localStorage.removeItem('partyDeleted');
+        }
+    })
     </script>
     
     <style scoped></style>

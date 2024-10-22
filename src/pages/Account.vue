@@ -79,13 +79,16 @@ import axios from "axios";
     const deleteAccount = () => {
     if (confirm("Are you sure you want to delete this Account?")) {
         axios.delete(`https://microfin.ritdos.com/api/account/delete/${accountId}`) 
-        .then(() => {  
+        .then(() => { 
+            localStorage.setItem("accountDeleted", true); 
             window.location.href = '/accounts'; 
         })
         .catch(error => {
+            toast.error("Error Deleting Account", { timeout: 5000 });
             console.error(error);
         });
     } else {
+        toast.error("User Cancelled to delete this Party", { timeout: 5000 });
         console.log("User Cancelled to delete this Account");
         return;
     }

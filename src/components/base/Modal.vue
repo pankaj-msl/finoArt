@@ -300,8 +300,10 @@ const confirm = () => modalController.dismiss(name.value, "confirm");
 import { ref, reactive, onMounted, watch } from "vue";
 import axios from "axios";
 import { useTransactionsStore } from "../../stores/transactions";
+import { useToast } from "vue-toastification";
 
 const name = ref();
+const toast = useToast();
 let drawer = ref(false);
 let showTransactionModal = ref(false);
 let transactions = ref({});
@@ -355,10 +357,11 @@ const form = reactive({ ...formInitialState });
 const createOrUpdateTransaction = () => {
   axios.post('https://microfin.ritdos.com/api/transaction/create', form)
   .then(response => {
-    console.log(response);
-    modalController.dismiss(null, "confirm");
+    localStorage.setItem('transactionCreated', true);
+    window.location.reload();
   })
   .catch(error => {
+    toast.error("Error creating Transaction");
     console.error(error);
   });
 }
@@ -368,7 +371,7 @@ watch(() => form.transaction_type, (newVal)=> {
   form.transaction_type = newVal;
 })
 
-// watch(()=> form, (newVal)=>{
-//   console.log(newVal);
-// }, {deep: true})
+watch(() => form, (newVal)=> {
+  console.log(newVal);
+}, { deep: true})
 </script>

@@ -88,8 +88,10 @@
   import { ref, reactive, onMounted, watch } from "vue";
   import axios from "axios";
   import { useTransactionsStore } from "../../stores/transactions";
+  import { useToast } from "vue-toastification";
   
   const name = ref();
+  const toast = useToast();
   let drawer = ref(false);
   let showTransactionModal = ref(false);
   let transactions = ref({});
@@ -107,10 +109,11 @@
   const updateBudget = () => {
     axios.post('https://microfin.ritdos.com/api/budget/update', form)
     .then(() => {
-        console.log('Budget created successfully');
-        window.location.href = '/';
+        localStorage.setItem('budgetCreated', true);
+        window.location.href = '/budgets';
       })
      .catch(error => {
+        toast.error("Error Creating Account");
         console.error(error);
       });
   }

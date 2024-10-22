@@ -18,7 +18,9 @@
               placeholder="Amount"
             ></ion-input>
           </ion-item>
-          <ion-progress-bar type="linear" value=".40"></ion-progress-bar>
+          <ion-progress-bar type="linear" :value="useBudgetStore().progressValue(budget.category_name, budget.budget_amount)"
+                :style="{'--ion-color-primary': useBudgetStore().progressColor(budget.category_name, budget.budget_amount)}"
+                ></ion-progress-bar>
           <ion-item>
             <ion-label @click="updateBudget" color="success">
               <ion-tab-button
@@ -71,17 +73,20 @@ import {
 import { useRoute } from "vue-router";
 import { ref, reactive, computed, watch, onMounted } from "vue";
 import { useTransactionsStore } from "../stores/transactions";
+import { useBudgetStore } from "../stores/budgets";
 import AppLayout from "../components/base/AppLayout.vue";
+import { useToast } from "vue-toastification";
 
 import * as icons from "ionicons/icons";
 import axios from "axios";
 
+const toast = useToast();
 const route = useRoute();
 const budgetId = parseInt(route.params.id);
 const isEditable = ref(false);
 
 const transactionsStore = useTransactionsStore();
-const { exp_categories } = storeToRefs(transactionsStore);
+const { exp_categories, transactions } = storeToRefs(transactionsStore);
 
 const budget = computed(() =>
   exp_categories.value.find((exp) => exp.id === budgetId)
@@ -95,14 +100,16 @@ const deleteBudget = () => {
     axios
       .delete(`https://microfin.ritdos.com/api/budget/delete/${budgetId}`)
       .then(() => {
-        window.location.href = "/";
+        localStorage.setItem("budgetDeleted", true);
+        window.location.href = "/budgets";
       })
       .catch((error) => {
+        toast.error("Error Deleting Budget", { timeout: 5000 });
         console.error(error);
       });
   } else {
-    console.log("User Cancelled to delete this budget");
-    return;
+        toast.error("User Cancelled to delete this Budget", { timeout: 5000 });
+        return;
   }
 };
 
@@ -111,16 +118,15 @@ const form = reactive({
   amount: Amount,
 });
 
-//   console.log(form.exp_category)
-
 const updateBudget = () => {
   axios
     .post("https://microfin.ritdos.com/api/budget/update", form)
     .then(() => {
-      console.log("Budget created successfully");
-      window.location.href = "/";
+      localStorage.setItem('budgetUpdated', true);
+      window.location.href = "/budgets";
     })
     .catch((error) => {
+      toast.error("Error Creating Account");
       console.error(error);
     });
 };

@@ -119,9 +119,11 @@ import { useRoute } from "vue-router";
 import * as icons from "ionicons/icons";
 import { onMounted, ref, computed, watch } from "vue";
 import AppLayout from "../components/base/AppLayout.vue";
+import { useToast } from "vue-toastification";
 
 import axios from "axios";
 
+const toast = useToast();
 const route = useRoute();
 const transactionId = parseInt(route.params.id);
 const isEditable = ref(false);
@@ -138,12 +140,12 @@ const updateTransaction = () => {
     axios.put('https://microfin.ritdos.com/api/transaction/update', editableTransaction.value)
     .then(response => {
        isEditable.value = false;
+       localStorage.setItem("transactionUpdated", true);
        window.location.href = "/transactions";
-      //  Notyf.success('Transaction updated successfully!');
-       console.log('Transaction updated successfully');
+      
      })
      .catch(error => {
-      // Notyf.error('Failed to update transaction.');
+        toast.error('Failed to update transaction.');
        console.error('Error updating transaction:', error);
      });
 }
@@ -152,12 +154,11 @@ const deleteTransaction = () => {
   axios.delete(`https://microfin.ritdos.com/api/transaction/delete/${transactionId}`)
     .then(response => {
        isEditable.value = false;
+       localStorage.setItem("transactionDeleted", true);
        window.location.href = "/transactions";
-      //  Notyf.success('Transaction deleted successfully!');
-       console.log('Transaction deleted successfully');
      })
     .catch(error => {
-      // Notyf.error('Failed to delete transaction.');
+       toast.error('Failed to delete transaction.');
        console.error('Error deleting transaction:', error);
      });
 }

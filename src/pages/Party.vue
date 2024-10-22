@@ -17,22 +17,18 @@
                                 <ion-label><h2>&#x20B9 {{transaction.amount }}</h2></ion-label>
                                     <ion-icon size="large" color="warning" :icon="icons.createOutline"></ion-icon>
                             </ion-item>
+                            
                         </ion-list>
-                    <ion-item>
-                        <ion-label 
-                    @click="deleteParty"
-                    color="danger">
-                            <ion-tab-button>
-                                <ion-icon :icon="icons.trashBinOutline"></ion-icon>Delete Party
-                            </ion-tab-button>
-                    </ion-label>
-                    <ion-label 
-                    @click="fullySettled"
-                    color="success">
-                            <ion-tab-button>
-                                <ion-icon :icon="icons.trashBinOutline"></ion-icon>Full Settlement
-                            </ion-tab-button>
-                    </ion-label>
+                        <ion-item>
+                            <ion-label>Total</ion-label>
+                            <ion-label :color="totals.taken > totals.given ? 'danger' : 'success'"><h2>&#x20B9 {{ totals.given - totals.taken  }}</h2></ion-label>
+                        </ion-item>
+                    <ion-item style="width:100%; --inner-border-width: 0;">
+                        <ion-label @click="deleteParty">
+                            <ion-button expand="block" color="danger">
+                                <ion-icon :icon="icons.trashBinOutline"></ion-icon> &nbsp; Delete Party
+                            </ion-button>
+                        </ion-label>
                     </ion-item>
                 </ion-list>
             </ion-card-content>
@@ -71,10 +67,13 @@
 import { useTransactionsStore } from "../stores/transactions";
 import * as icons from "ionicons/icons";
 import AppLayout from "../components/base/AppLayout.vue";
+import { useToast } from "vue-toastification";
 
 import axios from "axios";
+import { format } from "date-fns";
 
 
+    const toast = useToast();
     const route = useRoute();
     const partyId = parseInt(route.params.id);
     const isEditable = ref(false);
@@ -85,30 +84,40 @@ import axios from "axios";
     const party =  computed(() => parties.value.find(p => p.id === partyId));
     const partyTransactions = computed(() => transactions.value.filter(t => t.party_id === partyId))
 
+    const totals = computed(() => {
+    return partyTransactions.value.reduce((acc, t) => {
+        if (t.category_name === "Taken") {
+        acc.taken += t.amount;
+        } else if (t.category_name === "Given") {
+        acc.given += t.amount;
+        }
+        return acc;
+    }, { taken: 0, given: 0 });
+    });
 
-    console.log(partyTransactions.value);
+const form = reactive({
+    partyId: partyId,
+    taken: 0,
+    given: 0,
+})
 
     const deleteParty = () => {
     if (confirm("Are you sure you want to delete this Party?")) {
         axios.delete(`https://microfin.ritdos.com/api/party/delete/${partyId}`) 
         .then(() => {  
-            window.location.href = '/parties'; 
+            localStorage.setItem("partyDeleted", true);
+            window.location.href = '/parties';
         })
         .catch(error => {
+            toast.error("Error Deleting Party", { timeout: 5000 });
             console.error(error);
         });
     } else {
+        toast.error("User Cancelled to delete this Party", { timeout: 5000 });
         console.log("User Cancelled to delete this Party");
         return;
     }
 }
-
-    const fullySettled = () => {
-
-        //
-    }
-
-    
 </script>
     
-    <style scoped></style>
+<style scoped></style>
