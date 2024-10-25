@@ -211,16 +211,20 @@
           <ion-label position="floating">Amount</ion-label>
           <ion-input type="number" v-model="form.amount"></ion-input>
         </ion-item>
+        <ion-label v-if="form.transaction_type === 'Cash in Hand'" style="margin-left: 12px;">Refill your Cash in Hand</ion-label>
 
         <ion-item>
           <ion-label position="floating">Description</ion-label>
           <ion-textarea v-model="form.description"></ion-textarea>
         </ion-item>
+        
 
         <ion-item
           v-if="
             form.transaction_type !== 'Withdraw' &&
-            form.transaction_type !== 'Transfer'
+            form.transaction_type !== 'Transfer' &&
+            form.transaction_type !== 'Cash in Hand' &&
+            form.transaction_type !== 'Deposit'
           "
         >
           <ion-label>Select Account</ion-label>
@@ -320,7 +324,8 @@ const populate = reactive({
     "Loans & Advances",
     "Withdraw",
     "Transfer",
-    "Deposit"
+    "Deposit",
+    "Cash in Hand"
   ],
 
   exp_categories: exp_categories,
@@ -337,7 +342,7 @@ const formInitialState = {
   exp_category: "",
   income_category: "",
   loan_type: "",
-  amount: 0,
+  amount: null,
   description: "",
   account: "",
   transfer_to: "",

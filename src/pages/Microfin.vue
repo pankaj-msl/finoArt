@@ -8,7 +8,7 @@
             <ion-list>
             <ion-item v-if="loading">Loading transactions...</ion-item>
             <ion-item 
-            v-for="transaction in exp_transactions.slice(0,2)" 
+            v-for="transaction in exp_transactions.slice(0,3)" 
             :key="transaction.id"
             :router-link="'/transaction/' + transaction.id">
             <ion-icon :icon="icons[useTransactionsStore().catIcon(transaction.category_id)]" :color="useTransactionsStore().catIconColor(transaction.category_id)"></ion-icon>
@@ -35,7 +35,7 @@
             <ion-card>
                 <ion-card-header color="light">
                     <ion-card-subtitle>Cash</ion-card-subtitle>
-                    <ion-card-title>Rs. 10,000</ion-card-title>
+                    <ion-card-title :style="accounts[0].account_amount > 0 ? 'color: #347928' : 'color: #72BF78'">{{ accounts[0].account_amount }}</ion-card-title>
                 </ion-card-header>
             </ion-card>
         </ion-col>
@@ -43,7 +43,7 @@
             <ion-card :router-link="'/accounts'">
                 <ion-card-header color="light">
                     <ion-card-subtitle>Accounts</ion-card-subtitle>
-                    <ion-card-title>{{ accounts.length }}</ion-card-title>
+                    <ion-card-title style="color:#433878">{{ accounts.length }}</ion-card-title>
                 </ion-card-header>
             </ion-card>
         </ion-col>
@@ -58,7 +58,7 @@
     
         <ion-card-content>
             <ion-row 
-            v-for="budget in budgets.slice(0,2)"
+            v-for="budget in budgets.slice(0,3)"
             :key="budget.id"
             :router-link="'/budget/' + budget.id"
             >
