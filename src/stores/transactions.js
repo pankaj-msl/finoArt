@@ -30,6 +30,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
                 budget_amount: c.budget_amount,
                 cat_icon: c.cat_icon,
                 cat_icon_color: c.cat_icon_color,
+                category_mode: c.category_mode
             }));
             console.log("Pinia Expense Categories", exp_categories.value);
 
@@ -39,6 +40,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
                 category_type: c.transaction_type,
                 cat_icon: c.cat_icon,
                 cat_icon_color: c.cat_icon_color,
+                category_mode: c.category_mode
             }));
             console.log("Pinia Income Categories: ", income_categories.value);
 

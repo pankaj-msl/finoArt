@@ -15,7 +15,7 @@
                 <h2>{{ category.category_name }}</h2>
                 <p>{{ category.category_type }}</p>
             </ion-label>
-                <ion-label @click="deleteCategory(category.id)" color="primary">
+                <ion-label v-if="category.category_mode" @click="deleteCategory(category.id)" color="primary">
                     <ion-item style="width:100%; --inner-border-width: 0;">
                         <ion-label class="ion-text-right">
                             <ion-tab-button>

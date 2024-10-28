@@ -41,6 +41,29 @@
               presentation="date-time"
             ></ion-datetime>
           </ion-item>
+
+          <ion-item>
+            <ion-label>Payment By</ion-label>
+            <ion-label v-if="!isEditable" class="ion-text-right">{{
+              paymentBy(transaction.account_id)
+            }}</ion-label>
+
+          <ion-select
+            v-else
+            v-model="editableTransaction.account_id"
+            interface="popover"
+            placeholder="Select One"
+          >
+            <ion-select-option
+              v-for="account in accounts"
+              :key="account.id"
+              :value="account.id"
+            >
+              {{ account.account_name }}
+            </ion-select-option>
+          </ion-select>
+          </ion-item>
+
           <ion-item style="--inner-border-width: 0">
             <ion-label 
             v-if="!isEditable"
@@ -107,6 +130,8 @@ import {
   IonIcon,
   IonFab,
   IonFabButton,
+  IonSelect,
+  IonSelectOption,
   IonFabList,
   modalController,
   IonDatetime,
@@ -135,6 +160,13 @@ watch(()=>isEditable.value, (newVal)=>{
 
 const transaction = useTransactionsStore().editTransaction(transactionId).value;
 const editableTransaction = ref({ ...transaction});
+
+const accounts = useTransactionsStore().accounts;
+
+const paymentBy = (accountId) => {
+  const account = accounts.find(acc => acc.id === accountId);
+  return account.account_name;
+}
 
 const updateTransaction = () => {
     axios.put('https://microfin.ritdos.com/api/transaction/update', editableTransaction.value)

@@ -7,6 +7,12 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
+        <ion-refresher slot="fixed" @ionRefresh="doRefresh">
+        <ion-refresher-content
+          pulling-text="Pull to refresh"
+          refreshing-spinner="circles"
+        ></ion-refresher-content>
+      </ion-refresher>
         <ion-item routerLink="/transactions">
             <ion-icon :icon="icons.cash" color="success"></ion-icon>
             <ion-label style="padding-left: 4px;">Transactions</ion-label>
@@ -64,6 +70,8 @@
         IonLabel,
         IonIcon,
         menuController,
+        IonRefresher,
+        IonRefresherContent,
         onIonViewWillEnter
     } from "@ionic/vue";
     import * as icons from "ionicons/icons";
@@ -87,6 +95,13 @@ const router = useRouter();
             required: false
         }
     })
+
+    const doRefresh = async () => {
+        // Perform your data refresh here
+        console.log('Refreshing...');
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        console.log('Refreshed!');
+    }
     </script>
     
 <style scoped>

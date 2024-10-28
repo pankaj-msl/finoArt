@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { IonCard, IonCardHeader, IonCardSubtitle, IonList, IonItem, IonLabel, IonButton, IonIcon } from "@ionic/vue";
+import { IonCard, IonCardHeader, IonCardSubtitle, IonList, IonItem, IonLabel, IonButton, IonIcon, IonRefresher, IonRefresherContent } from "@ionic/vue";
 import * as icons from "ionicons/icons"
 import { useTransactionsStore } from "../stores/transactions";
 import { ref, watch, onMounted, computed } from "vue";

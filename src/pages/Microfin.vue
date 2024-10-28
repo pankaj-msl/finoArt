@@ -35,7 +35,7 @@
             <ion-card>
                 <ion-card-header color="light">
                     <ion-card-subtitle>Cash</ion-card-subtitle>
-                    <ion-card-title :style="accounts[0].account_amount > 0 ? 'color: #347928' : 'color: #72BF78'">{{ accounts[0].account_amount }}</ion-card-title>
+                    <ion-card-title :style="accounts[0]?.account_amount > 0 ? 'color: #347928' : 'color: #72BF78'">{{ accounts[0]?.account_amount }}</ion-card-title>
                 </ion-card-header>
             </ion-card>
         </ion-col>

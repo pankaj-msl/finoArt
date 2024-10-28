@@ -14,7 +14,10 @@
                 >
                     <ion-col class="ion-padding-top">
                         <ion-label color="primary"><h2>{{ party.party_name }}</h2></ion-label>
-                        <!-- <ion-label class="ion-float-right">Rs. {{ party.budget_amount }}</ion-label> -->
+                        <ion-label 
+                        :color="total(party.id).taken > total(party.id).given ? 'danger' : 'success'"
+                        class="ion-float-right">
+                        Rs. {{ total(party.id).given - total(party.id).taken }}</ion-label>
                     </ion-col>
                 </ion-row>
                 <!-- <ion-row style="justify-content: center; margin-top: 12px;">
@@ -62,7 +65,19 @@
     const transactionsStore = ref([]);
     transactionsStore.value = useTransactionsStore();
     
-    const { parties } = storeToRefs(transactionsStore.value);
+    const { parties, transactions } = storeToRefs(transactionsStore.value);
+
+    const total = (partyId) => {
+        const partyTransactions = computed(() => transactions.value.filter(t => t.party_id === partyId))
+        return partyTransactions.value.reduce((acc, t) => {
+        if (t.category_name === "Taken") {
+        acc.taken += t.amount;
+        } else if (t.category_name === "Given") {
+        acc.given += t.amount;
+        }
+        return acc;
+    }, { taken: 0, given: 0 });
+    }
 
     onMounted(()=>{
         useTransactionsStore().fetchAPIs();
