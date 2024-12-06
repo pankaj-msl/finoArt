@@ -30,7 +30,8 @@ export const useTransactionsStore = defineStore('transactions', () => {
                 budget_amount: c.budget_amount,
                 cat_icon: c.cat_icon,
                 cat_icon_color: c.cat_icon_color,
-                category_mode: c.category_mode
+                category_mode: c.category_mode,
+                created_at: c.created_at
             }));
             console.log("Pinia Expense Categories", exp_categories.value);
 
@@ -40,13 +41,19 @@ export const useTransactionsStore = defineStore('transactions', () => {
                 category_type: c.transaction_type,
                 cat_icon: c.cat_icon,
                 cat_icon_color: c.cat_icon_color,
-                category_mode: c.category_mode
+                category_mode: c.category_mode,
+                created_at: c.created_at
             }));
             console.log("Pinia Income Categories: ", income_categories.value);
 
             loan_type.value = response.data.loanCat.map((c) => ({
                 id: c.id,
                 category_name: c.category_name,
+                category_type: c.transaction_type,
+                cat_icon: c.cat_icon,
+                cat_icon_color: c.cat_icon_color,
+                category_mode: c.category_mode,
+                created_at: c.created_at
             }));
             console.log("Pinia Loan Type: ", loan_type.value);
 
@@ -57,7 +64,8 @@ export const useTransactionsStore = defineStore('transactions', () => {
             parties.value.push({ id: parties.value.length+1, party_name: "+ Add Party" });
             console.log("Pinia Parties: ", parties.value);
 
-            accounts.value = response.data.accounts.map((a) => ({
+            accounts.value = response.data.accounts
+            .map((a) => ({
                 id: a.id,
                 account_name: a.account_name,
                 account_type: a.account_type,

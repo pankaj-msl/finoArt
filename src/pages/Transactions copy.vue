@@ -46,6 +46,7 @@
                                 </div>
                             </div>
 
+                            <!-- Date Filter Button -->
                             <div class="relative">
                                 <div 
                                     @click="showDatePicker = true"
@@ -83,10 +84,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- ======================== sub filter ============================ -->
-                    <!-- write your code here -->
-                     <!-- ======================= sub filter ends here ================== -->
                 </ion-card-subtitle>
             </ion-card-header>
             <ion-list>
@@ -112,7 +109,6 @@
                             </ion-label>
                         </ion-item>
                     </ion-label>
-                    <!-- <ion-label class="ion-text-right" color="danger">&#x20B9 {{ transaction.amount }}</ion-label> -->
                 </ion-item>
             </ion-list>
         </ion-card>
@@ -120,13 +116,12 @@
 </template>
 
 <script setup>
-import { IonCard, IonCardHeader, IonCardSubtitle, IonList, IonItem, IonLabel, IonButton, IonIcon, IonSelect, IonSelectOption, IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonContent, IonDatetime, IonRefresher, IonRefresherContent } from "@ionic/vue";
+import { IonCard, IonCardHeader, IonCardSubtitle, IonList, IonItem, IonLabel, IonButton, IonIcon, IonSelect, IonSelectOption, IonRefresher, IonRefresherContent, IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonContent, IonDatetime } from "@ionic/vue";
 import * as icons from "ionicons/icons"
 import { useTransactionsStore } from "../stores/transactions";
-import { ref, watch, onMounted, computed, reactive } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import AppLayout from "../components/base/AppLayout.vue";
 import { useToast } from "vue-toastification";
-
 import { storeToRefs } from "pinia";
 
 const toast = useToast();
@@ -138,12 +133,10 @@ const selectedDate = ref(null);
 const selectedTransactionType = ref("Expense");
 const selectedSortOption = ref("created_desc");
 
-
 const displayParty = (partyId) => {
     const party = useTransactionsStore().parties.find(party => party.id == partyId);
     return party ? party.party_name : "Unknown";
 }
-
 
 const handleDateChange = (event) => {
     selectedDate.value = event.detail.value;
@@ -156,10 +149,9 @@ const clearDateFilter = () => {
 };
 
 const filteredAndSortedTransactions = computed(() => {
-    // Filter transactions based on selected transaction type
+    // First filter by transaction type
     let filtered = transactions.value.filter(t => t.transaction_type === selectedTransactionType.value);
-
-
+    
     // Then filter by date if selected
     if (selectedDate.value) {
         const selectedDateStart = new Date(selectedDate.value);
@@ -174,7 +166,7 @@ const filteredAndSortedTransactions = computed(() => {
         });
     }
 
-    //Then sort based on the selected option
+    // Then sort based on the selected option
     switch(selectedSortOption.value) {
         case "amount_asc":
             return filtered.sort((a,b) => a.amount - b.amount);
@@ -202,14 +194,12 @@ const sortLabel = computed(() => {
     }
 });
 
-
 const exp_transactions = computed(() => transactions.value.filter(t => t.transaction_type === "Expense"));
 const totalExpense = computed(() => exp_transactions.value.reduce((total, t) => total + t.amount, 0));
 
-watch(()=>selectedTransactionType, (newVal, oldVal) =>{
-    // transactionsStore.setTransactionType(newVal);
+watch(selectedTransactionType, (newVal) => {
     console.log(newVal);
-})
+});
 
 onMounted(() => {
     transactionsStore.fetchAPIs();
@@ -247,7 +237,12 @@ onMounted(() => {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    /* Adds the ellipsis (...) */
     max-width: 100%;
+}
+
+/* Add styles for the active date filter state */
+.date-filter-active {
+    background-color: var(--ion-color-primary);
+    color: white;
 }
 </style>

@@ -43,7 +43,7 @@
             <ion-card :router-link="'/accounts'">
                 <ion-card-header color="light">
                     <ion-card-subtitle>Accounts</ion-card-subtitle>
-                    <ion-card-title style="color:#433878">{{ accounts.length }}</ion-card-title>
+                    <ion-card-title style="color:#433878">{{ accounts.length - 1 }}</ion-card-title>
                 </ion-card-header>
             </ion-card>
         </ion-col>

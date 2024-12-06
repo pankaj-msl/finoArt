@@ -44,8 +44,6 @@
             <ion-datetime
               v-else
               v-model="formattedCreatedAt"
-              
-              @ionChange="handleDateChange"
               presentation="date-time"
             ></ion-datetime>
           </ion-item>
@@ -153,7 +151,7 @@ import * as icons from "ionicons/icons";
 import { onMounted, ref, computed, watch } from "vue";
 import AppLayout from "../components/base/AppLayout.vue";
 import { useToast } from "vue-toastification";
-import { formatInTimeZone } from 'date-fns-tz';
+
 import axios from "axios";
 
 const toast = useToast();
@@ -181,12 +179,6 @@ const paymentBy = (accountId) => {
   return account.account_name;
 }
 
-const handleDateChange = (event) => {
-  const selectedDate = event.detail.value;
-  // Convert selected date to UTC
-  editableTransaction.value.created_at = selectedDate;
-};
-
 const updateTransaction = () => {
     axios.put('https://microfin.ritdos.com/api/transaction/update', editableTransaction.value)
     .then(response => {
@@ -201,11 +193,6 @@ const updateTransaction = () => {
      });
 }
 
-const formattedCreatedAt = computed(()=>{
-  const date = new Date(editableTransaction.value.created_at);
-  return date.toISOString().slice(0, 16);
-})
-
 const deleteTransaction = () => {
   axios.delete(`https://microfin.ritdos.com/api/transaction/delete/${transactionId}`)
     .then(response => {
@@ -218,6 +205,14 @@ const deleteTransaction = () => {
        console.error('Error deleting transaction:', error);
      });
 }
+
+const formattedCreatedAt = computed(()=>{
+  const date = new Date(editableTransaction.value.created_at);
+  return date.toISOString().slice(0, 16);
+})
+
+console.log(formattedCreatedAt.value)
+
 </script>
 
 <style scoped></style>

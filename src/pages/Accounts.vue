@@ -7,7 +7,7 @@
             <ion-list>
             <ion-item v-if="loading">Loading accounts...</ion-item>
             <ion-item 
-            v-for="account in accounts" 
+            v-for="account in filteredAccounts" 
             :key="account.id"
             :router-link="'/account/' + account.id">
             <!-- <ion-icon :icon="icons[useTransactionsStore().catIcon(transaction.category_id)]" :color="useTransactionsStore().catIconColor(transaction.category_id)"></ion-icon> -->
@@ -49,6 +49,7 @@ const toast = useToast();
 
 const transactionsStore = useTransactionsStore();
 const { accounts, loading } = storeToRefs(transactionsStore);
+let filteredAccounts = accounts.value.filter(a => a.account_name !== "Unknown");
 
 onMounted(() => {
     transactionsStore.fetchAPIs(); 

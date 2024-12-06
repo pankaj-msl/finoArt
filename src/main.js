@@ -5,6 +5,7 @@ import { createPinia } from 'pinia'
 import Toast from "vue-toastification";
 // Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
+import './assets/tailwind.css';
 
 // Use them as needed in your template
 

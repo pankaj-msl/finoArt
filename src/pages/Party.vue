@@ -6,15 +6,15 @@
             </ion-card-header>
             <ion-card-content>
                 <ion-list>
-                    <ion-item class="ion-padding-top">
+                    <ion-item>
                         <ion-label class="ion-text-center" color="primary">
                             <h2>{{ party.party_name }}</h2>
                         </ion-label>   
                     </ion-item>
                     <ion-list v-for="transaction in partyTransactions" style="width:100%; --inner-border-width: 0;">
                             <ion-item :router-link="'/transaction/' + transaction.id">
-                                <ion-label>{{transaction.category_name }}</ion-label>
-                                <ion-label><h2>&#x20B9 {{transaction.amount }}</h2></ion-label>
+                                <ion-label><h2>{{transaction.category_name }}</h2><p>{{ transaction.description }}</p></ion-label>
+                                <ion-label><h2>&#x20B9 {{transaction.amount }}</h2><p>{{ formatDate(transaction.created_at) }}</p></ion-label>
                                     <ion-icon size="large" color="warning" :icon="icons.createOutline"></ion-icon>
                             </ion-item>
                             
@@ -100,6 +100,10 @@ const form = reactive({
     taken: 0,
     given: 0,
 })
+
+const formatDate = (date) => {
+    return format(new Date(date), 'dd-MMM yyyy');
+}
 
     const deleteParty = () => {
     if (confirm("Are you sure you want to delete this Party?")) {
