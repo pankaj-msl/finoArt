@@ -146,8 +146,6 @@ import {
 } from "@ionic/vue";
 import { useTransactionsStore } from "../stores/transactions";
 import { format, parseISO } from 'date-fns';
-import { Notyf } from 'notyf';
-import 'notyf/notyf.min.css'; // for CSS
 import { useRoute } from "vue-router";
 import * as icons from "ionicons/icons";
 import { onMounted, ref, computed, watch } from "vue";

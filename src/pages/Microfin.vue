@@ -90,6 +90,7 @@
 
 <script setup>
 import * as icons from "ionicons/icons"
+import ApexCharts from 'apexcharts'
 import { 
     IonList, IonItem, IonLabel, IonImg, IonThumbnail, 
     IonRow, IonCol, 
@@ -103,7 +104,7 @@ import Modal from '../components/base/Modal.vue';
 import BudgetModal from '../components/base/BudgetModal.vue';
 import BaseLayout from "../components/base/BaseLayout.vue";
 import { useToast } from "vue-toastification";
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import { storeToRefs } from "pinia";
 
 const toast = useToast();
@@ -119,6 +120,26 @@ const exp_transactions = computed(() => transactions.value.filter(t => t.transac
 const budgets = computed(() => exp_categories.value.filter(e => e.budget_amount != null));
 
 const totalExpense = computed(() => exp_transactions.value.reduce((total, t) => total + t.amount, 0));
+
+// ====================== Apex Charts ===========================
+const chartRef = ref(null);
+const chart = ref(null);
+
+const expCat_total = computed(
+    () => exp_transactions.value
+    .reduce((sum, total) => {
+        let category_name = total.category_name;
+        if (category_name in sum){
+            sum[category_name] += total.amount;
+        } else {
+            sum[category_name] = total.amount;
+        }
+        return sum;
+    }, {}))
+
+console.log("Total of Each Category of Expense: ", expCat_total.value);
+
+//  ===================== End Apex Charts =========================
 
 //  ===================== Open Modal ============================
     const openModal = async () => {
