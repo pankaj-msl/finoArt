@@ -1,5 +1,17 @@
 <template>
     <base-layout page-title="Microfin">
+    <!-- =================== Dasboard Chart ================================ -->
+    <apexchart
+  type="donut"
+  :options="chartOptions"
+  :series="chartSeries"
+></apexchart>
+     <ion-card>
+        <ion-card-header color="light">
+            <ion-card-subtitle color="primary">Microfinance Dashboard</ion-card-subtitle>
+        </ion-card-header>
+        <Pie :data="data" :options="options" />
+     </ion-card>
     <!-- =================== Latest Transaction ============================ -->
     <ion-card>
             <ion-card-header color="light">
@@ -90,7 +102,6 @@
 
 <script setup>
 import * as icons from "ionicons/icons"
-import ApexCharts from 'apexcharts'
 import { 
     IonList, IonItem, IonLabel, IonImg, IonThumbnail, 
     IonRow, IonCol, 
@@ -99,21 +110,24 @@ import {
     IonFab, IonFabButton, IonFabList, modalController
 } from "@ionic/vue";
 import { useTransactionsStore } from "../stores/transactions";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Pie } from 'vue-chartjs'
+import * as chartConfig from './chartConfig.js'
 import { useBudgetStore } from "../stores/budgets";
 import Modal from '../components/base/Modal.vue';
 import BudgetModal from '../components/base/BudgetModal.vue';
 import BaseLayout from "../components/base/BaseLayout.vue";
 import { useToast } from "vue-toastification";
-import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch, computed, nextTick } from 'vue';
 import { storeToRefs } from "pinia";
 
 const toast = useToast();
 
+ChartJS.register(ArcElement, Tooltip, Legend)
 
 const transactionsStore = ref([]);
 
 transactionsStore.value = useTransactionsStore();
-
 const { transactions, exp_categories, income_categories, parties, accounts, loading } = storeToRefs(transactionsStore.value);
 const exp_transactions = computed(() => transactions.value.filter(t => t.transaction_type === "Expense"));
 
@@ -122,22 +136,85 @@ const budgets = computed(() => exp_categories.value.filter(e => e.budget_amount 
 const totalExpense = computed(() => exp_transactions.value.reduce((total, t) => total + t.amount, 0));
 
 // ====================== Apex Charts ===========================
-const chartRef = ref(null);
-const chart = ref(null);
+// const expCat_total = computed(
+//     () => exp_transactions.value
+//     .reduce((sum, total) => {
+//         let category_name = total.category_name;
+//         if (category_name in sum){
+//             sum[category_name] += total.amount;
+//         } else {
+//             sum[category_name] = total.amount;
+//         }
+//         return sum;
+//     }, {}))
 
-const expCat_total = computed(
-    () => exp_transactions.value
-    .reduce((sum, total) => {
-        let category_name = total.category_name;
-        if (category_name in sum){
-            sum[category_name] += total.amount;
-        } else {
-            sum[category_name] = total.amount;
+// Watch for changes in the computed totals
+watch(expCat_total, (newVal) => {
+  console.log('Total of Each Category of Expense: ', newVal);
+  console.log("Keys: ", Object.keys(newVal));
+  console.log("Values: ", Object.values(newVal));
+});
+
+const expCat_total = {
+  "Snacks": 593,
+  "Donation": 1540,
+  "Clothings": 500,
+  "Households": 2643,
+  "Travels": 210,
+  "Health": 80,
+  "Grocessories": 210,
+  "Rent": 4500,
+  "Bills & Recharge": 651,
+  "Investment": 399
+}
+
+function generateDistinctVibrantColors(count) {
+  const goldenRatio = 0.618033988749895;
+  return Array.from({ length: count }, (_, index) => {
+    // Use golden ratio to create evenly distributed hues
+    const hue = (index * goldenRatio * 360) % 360;
+    
+    // Alternate saturation and lightness to create more variation
+    const saturation = 70 + (index % 2) * 30; // Alternates between 70% and 100%
+    const lightness = 50 + (index % 3 === 0 ? 10 : 0); // Slight variation in lightness
+    
+    return `hsl(${Math.round(hue)}, ${saturation}%, ${lightness}%)`;
+  });
+}
+
+const data = {
+    labels: Object.keys(expCat_total),
+    datasets: [
+      {
+        backgroundColor: generateDistinctVibrantColors(Object.keys(expCat_total).length),
+        data: Object.values(expCat_total)
+      }
+    ]
+  }
+  
+  const options = {
+    responsive: true,
+    maintainAspectRatio: true,
+    layout: {
+        padding: 10
+    },
+    plugins: {
+        legend: {
+            position: 'right',
+            labels: {
+                boxWidth: 20,
+                font: {
+                    size: 10
+                }
+            }
         }
-        return sum;
-    }, {}))
+    }
+}
 
-console.log("Total of Each Category of Expense: ", expCat_total.value);
+
+
+// const { data, options } = chartConfig
+
 
 //  ===================== End Apex Charts =========================
 

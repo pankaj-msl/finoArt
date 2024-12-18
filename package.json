@@ -22,8 +22,8 @@
     "@ionic/vue": "^8.0.0",
     "@ionic/vue-router": "^8.0.0",
     "@mdi/font": "^7.4.47",
-    "apexcharts": "^4.2.0",
     "axios": "^1.7.7",
+    "chart.js": "^4.4.7",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
     "ionicons": "^7.4.0",
@@ -33,6 +33,7 @@
     "pouchdb": "^9.0.0",
     "sql.js": "^1.11.0",
     "vue": "^3.3.0",
+    "vue-chartjs": "^5.3.2",
     "vue-router": "^4.2.0",
     "vue-toastification": "^2.0.0-rc.5"
   },
